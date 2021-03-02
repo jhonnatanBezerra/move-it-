@@ -9,16 +9,6 @@ export const CountDown = () => {
   const [minuteLeft, minuteRigth] = String(minutes).padStart(2, '0').split('');
   const [secondsLeft, secondsRigth] = String(seconds).padStart(2, '0').split('');
 
-
-  function handleChallengeSucceeded() {
-
-  }
-
-  function handleChallengeFailed() {
-
-  }
-
-
   return (
     <>
       <div className={styles.countDownContainer}>

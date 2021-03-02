@@ -1,25 +1,45 @@
 import { createContext, useEffect, useState } from 'react';
+import { LevelUpModal } from '../components/LevelUpModal';
+import Cookies from 'js-cookie'
 import challenges from '../../challenges.json';
 
 export const ChallengesContext = createContext({});
 
-export const ChallengesProvider = ({ children }) => {
 
-  const [level, setLevel] = useState(1);
-  const [currentExperience, setCurrentExperience] = useState(0);
-  const [challengesCompleted, setChallengesCompleted] = useState(0);
+export const ChallengesProvider = ({ children, lvl, experience, totalChallenges }) => {
+
+  console.log(experience);
+
+  const [level, setLevel] = useState(lvl ?? 0);
+  const [currentExperience, setCurrentExperience] = useState(experience ?? 0);
+  const [challengesCompleted, setChallengesCompleted] = useState(totalChallenges ?? 0);
 
   const [activeChallenge, setActiveChallenge] = useState(null);
+  const [isLevelUpModalOpen, setIsLevelUpModalOpen] = useState(false);
 
   const experienceToLevelUp = Math.pow((level + 1) * 4, 2);
 
   useEffect(() => {
     Notification.requestPermission();
 
-  }, [])
+  }, []);
+
+  /* Para salvar os Cookies é necessario a instalação da lib
+  js-cookeis
+  */
+  useEffect(() => {
+    Cookies.set('level', String(level));
+    Cookies.set('currentExperience', String(currentExperience));
+    Cookies.set('challengesCompleted', String(challengesCompleted));
+  }, [level, currentExperience, challengesCompleted]);
 
   function levelUp() {
     setLevel(level + 1);
+    setIsLevelUpModalOpen(true);
+  }
+
+  function closeLevelUpModal() {
+    setIsLevelUpModalOpen(false);
   }
 
   function startNewChallenge() {
@@ -70,11 +90,14 @@ export const ChallengesProvider = ({ children }) => {
         levelUp,
         startNewChallenge,
         resetChelleng,
-        completedChallenge
+        completedChallenge,
+        closeLevelUpModal
       }}>
 
 
       {children}
+
+      { isLevelUpModalOpen && <LevelUpModal />}
     </ChallengesContext.Provider>
   )
 

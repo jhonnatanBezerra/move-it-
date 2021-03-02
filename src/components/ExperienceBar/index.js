@@ -6,6 +6,8 @@ export const ExperienceBar = () => {
 
   const { currentExperience, experienceToLevelUp } = useContext(ChallengesContext);
 
+  console.log(experienceToLevelUp);
+
   const percentToNextLevel = Math.round(currentExperience * 100) / experienceToLevelUp;
 
   return (

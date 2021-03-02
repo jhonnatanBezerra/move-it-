@@ -26,7 +26,9 @@ export const CountDownProvider = ({ children }) => {
       setIsActive(false);
       startNewChallenge();
     }
-  }, [isActive, time])
+  }, [isActive, time]);
+
+
 
   function startCountDown() {
     setIsActive(true);
